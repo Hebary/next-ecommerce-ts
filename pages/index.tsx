@@ -5,6 +5,9 @@ import api from '../components/products/api';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Grid, Text, Stack, Button, Box } from '@chakra-ui/react';
+import { Cart } from '../components/cart';
+
+import { currencyParser } from '../components/cart'
 
 interface Props {
   products: {
@@ -18,33 +21,18 @@ const IndexRoute: React.FC<Props> = ({ products }) => {
   const [cart, setCart] = useState<Product[]>([]);
 
 
-  const currencyParser = (number: number): string => {
-    return number.toLocaleString('es-AR', {
-      style: 'currency',
-      currency: 'ARS',
-    });
-  }
-
   const addToCart = (product: Product) => {
-    // setCart([...cart, product]);
     setCart(cart => cart.concat(product));
   }
 
-  //only if cart changes will be re-rendered
-  const text = useMemo(() =>
-    cart
-      .reduce(
-        (msg, product) => msg.concat(`* ${product.title} - $ ${product.price}\n`), ``
-      )
-      .concat(
-        `\nTotal: ${currencyParser(cart.reduce((total, product) => Number(total + product.price), 0))}`
-      )
-    , [cart]
-  )
 
   return (
 
     <Stack>
+      <Cart
+        products ={cart}
+        total = {currencyParser(cart.reduce((total, product) => Number(total + product.price), 0))}
+      />
 
       <Grid gridGap={6} justifyItems='center' templateColumns='repeat(auto-fill, minmax(200px,1fr))'>
         {
@@ -81,14 +69,15 @@ const IndexRoute: React.FC<Props> = ({ products }) => {
 
         }
       </Grid>
-      <Box alignSelf='center' bottom={0} position='sticky' padding={5}>
+      {/* 
         {
           Boolean(cart.length) &&
             <Button as={Link} padding={'6'}
               position='sticky' _hover={{ bg: 'teal'}} target="_blank" textAlign='center'  color='white' fontWeight='bold' href={`https://wa.me/3546650023?text=${encodeURIComponent(text)}`} width={300} marginX='auto' colorScheme='whatsapp' > Check out  {cart.length} items in cart
             </Button>
         }
-      </Box>
+      </Box> */}
+
     </Stack>
   );
 }
