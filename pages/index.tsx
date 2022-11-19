@@ -39,7 +39,7 @@ const IndexRoute: React.FC<Props> = ({ products }) => {
         justifyItems='center' 
         templateColumns='repeat(auto-fill, minmax(200px,1fr))'>
         {
-          products.products.map((product: Product) => (
+          products.products.map( (product: Product) => (
             <Stack 
               key={product.id}
               backgroundColor='gray.700' 
@@ -64,10 +64,7 @@ const IndexRoute: React.FC<Props> = ({ products }) => {
                   alt={product.title} 
                   width={200} 
                   height={200} />
-                <Text 
-                  color='white' 
-                  textAlign='left'>{product.description}
-                </Text>
+                
                 <Text 
                   color='white' 
                   textAlign='center' 
